@@ -8,7 +8,6 @@ export default class Input extends UIElement {
 		this.element = document.createElement("input");
 		this.appendChild(this.element);
 		this.event = this.element.addEventListener;
-		
 	}
 
 	

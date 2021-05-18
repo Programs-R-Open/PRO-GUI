@@ -167,4 +167,5 @@ export default class UIElement extends HTMLElement {
 
 }
 
+console.trace()
 customElements.define('pro-ui-element', UIElement);
