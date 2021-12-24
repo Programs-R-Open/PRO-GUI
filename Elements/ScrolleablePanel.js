@@ -2,8 +2,8 @@ import UIElement from './UIElement.js';
 
 export default class ScrolleablePanel extends UIElement {
 
-	constructor(type = "vertical") {
-		super();
+	constructor(parent, type = "vertical") {
+		super(parent);
 		
 		this.style.display = "flex";
 

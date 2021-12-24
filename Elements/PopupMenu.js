@@ -4,11 +4,12 @@ import UIElement from './UIElement.js';
 export default class PopupMenu extends UIElement {
 
 
-	constructor(json="") {
-		super();
+	constructor(parent, json="") {
+		super(parent);
 
 		this.hide();
-		this.addClass("popup");
+		this.style.position = "absolute";
+		this.style.zIndex = "100";
 
 		if (json!="")
 		this.loadFromJson(json);
@@ -24,9 +25,8 @@ export default class PopupMenu extends UIElement {
 			if (kv[1] instanceof Function) {
 				button.cb = kv[1];
 			}else if (kv[1]  != "") {
-				let popup = new PopupMenu();
+				let popup = new PopupMenu(button);
 				popup.a(kv[1]);
-				button.appendChild(popup);
 			} 
 
 		});
@@ -35,8 +35,8 @@ export default class PopupMenu extends UIElement {
 
 
 	addButton(name, cb) {
-		let button = new Button(name, cb);
-		this.appendChild(button);
+		let button = new Button(this, name, cb);
+		button.setDisplay("block");
 		return button;
 	}
 

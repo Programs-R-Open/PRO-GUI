@@ -8,15 +8,21 @@ export default class TreeMenu extends UIElement {
 
 		this.json = json;
 		this.currentMenu = [];
-		this.itemListClass = "itemList"; 
+		this.itemListClass = "itemList";
+
+		//Events
+		this.onActionSelected = ()=>{};
+		this.actionInfo = [];
+
 
 		this.draw();
 	}
 
 	draw() {
 		this.clear();
+
 		if (this.currentMenu.length > 0 ) {
-			let button = new Button("<=", () => {  this.currentMenu.pop(); this.draw(); })
+			let button = new Button("<=", () => {this.currentMenu.pop(); this.draw(); })
 			button.addClass(this.itemListClass);
 			this.appendChild(button);
 		}
@@ -25,9 +31,8 @@ export default class TreeMenu extends UIElement {
 			let button = new Button(menu.name);
 			button.addClass(this.itemListClass);
 
-			if (menu.hasOwnProperty("func")) button.setCb(() => {menu.func(); this.hide(); });
-			
-			button.setCb(()=> { this.currentMenu.push(index); this.draw();});
+			if (menu.hasOwnProperty("func")) button.setCb(() => {menu.func(...this.actionInfo); this.onActionSelected() });
+			else button.setCb(()=> { this.currentMenu.push(index); this.draw();});
 
 			this.appendChild(button);
 		});
@@ -35,11 +40,9 @@ export default class TreeMenu extends UIElement {
 
 
 	show(x, y) {
-		this.show();
-		this.style.left = x + "px";
-		this.style.top = y + "px";
-
-		this.clear();
+		super.show();
+		this.setLeft(x + "px");
+		this.setTop(y + "px");
 		this.draw();
 	}
 

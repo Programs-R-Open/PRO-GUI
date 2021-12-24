@@ -3,18 +3,18 @@ import Input from './Input.js';
 
 export default class RewriteableString extends UIElement {
 
-	constructor(text) {
-		super();
+	constructor(parent, text, validation = null) {
+		super(parent);
 
-		this.text = new UIElement();
-		this.appendChild(this.text);
+		if(validation) this.validation = validation 
+
+		this.text = new UIElement(this);
 		this.text.innerHTML = text;
 		this.text.hide();
 		this.text.addEventListener("dblclick", this.edit.bind(this)); 
 		
 		
-		this.input = new Input();
-		this.appendChild(this.input);
+		this.input = new Input(this);
 		this.input.setValue(text);
 		this.input.event("keypress", this.onInput.bind(this));
 		
@@ -42,6 +42,9 @@ export default class RewriteableString extends UIElement {
 	onInput(e) {
 		this.onTextChanged(this.input.getValue());
 		if (e.keyCode != 13) return;
+		if (this.validation != null)
+			if(this.validation(this)) return;
+
 		this.text.innerHTML = this.input.getValue();
 		this.input.hide();
 		this.text.show();

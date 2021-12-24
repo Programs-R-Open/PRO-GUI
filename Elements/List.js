@@ -3,27 +3,32 @@ import Button from './Button.js';
 
 export default class List extends UIElement {
 
-	constructor() {
-		super()
-		this.itemListClass = "itemList";
+	constructor(parent) {
+		super(parent)
+		this.list = [];
+		this.style.overflowY = "auto";
 	}
 
 	addItem(item, cb) {
-		//let row = new UIElement();
-		//row.addClass(this.itemListClass);
-		let name = new Button(item, cb);
-		name.addClass(this.itemListClass);
-		//let button = new Button("X", ()=>{this.row.remove()});
+		let button = new Button(this, item, cb);
 		
-		//row.setRow();
-		//row.appendChild(name);
-		//row.appendChild(button);
+		button.setDisplay("block");
 		
-		this.appendChild(name);
+		if (this.itemListClass) button.addClass(this.itemListClass)
+		
+		this.list.push(button);
+	}
+
+	addItems(list, cb) {
+		list.forEach(item => addItem(item, ));
 	}
 
 	setItemListClass(itemListClass) {
 		this.itemListClass = itemListClass;
+	}
+
+	forEach(callback) {
+		this.list.forEach(callback);
 	}
 
 

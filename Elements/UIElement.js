@@ -1,11 +1,15 @@
 
 export default class UIElement extends HTMLElement {
 
-	constructor() {
+	constructor(parent = null) {
 		super();
+
+
+		if(parent != null) parent.appendChild(this);  
+
 		this.event = this.addEventListener;
-		this.style.display = "block";
-		
+		this.defaultDisplay = "";
+
 		this.onResized = () => {};
 		this.onChildRemoved = () => {};
 		this.onChildAppended = () => {};
@@ -21,24 +25,39 @@ export default class UIElement extends HTMLElement {
 	}
 
 	hide() {
+		this.defaultDisplay = this.style.display;
 		this.style.display = "none";
 	}
 
 	show() {
-		this.style.display = "";
+		this.style.display = this.defaultDisplay;
+	}
+
+
+	toggleVisibility() {
+		this.style.display = this.style.display == "" ? "none" : ""; 
+	}
+
+	getPos() {
+		let {x, y} = this.getBoundingClientRect();
+		return {x:x, y:y}
+	}
+
+	getWidth() {
+		return this.getBoundingClientRect().width;
 	}
 
 	setFlex() {
-		this.setStyle("display", "flex");
+		this.setDisplay("flex");
 	}
 
 	setRow() {
-		this.setStyle("display", "flex");
+		this.setDisplay("flex");
 		this.setStyle("flexDirection", "row");
 	}
 
 	setCol() {
-		this.setStyle("display", "flex");
+		this.setDisplay("flex");
 		this.setStyle("flexDirection", "column");
 	}
 
@@ -73,13 +92,25 @@ export default class UIElement extends HTMLElement {
 		this.setHeight(dim.height);
 		this.setWidth(dim.width);
 	}
+	setDisplay(display) {
+		this.defaultDisplay = display;
+		this.style.display = display;
+	}
 
 	setTop(value) {
 		this.setStyle("top", value);
 	}
 
+	setText(text) {
+		this.innerHTML = text;
+	}
+	
 	setLeft(value) {
 		this.setStyle("left", value);
+	}
+
+	setStyleJson(json){
+		json.forEach(([style, value]) => this.setStyle(style, value));
 	}
 
 	setStyle(style, value) {
@@ -167,5 +198,4 @@ export default class UIElement extends HTMLElement {
 
 }
 
-console.trace()
 customElements.define('pro-ui-element', UIElement);

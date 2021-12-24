@@ -2,9 +2,10 @@ import UIElement from './UIElement.js';
 
 export default class Button extends UIElement {
 
-	constructor(name, cb = ()=>{}, child = null) {
-		super();
+	constructor(parent, name, cb = ()=>{}, child = null) {
+		super(parent);
 
+		this.name = name;
 		this.cb = cb;
 		this.isDown;
 
@@ -36,7 +37,8 @@ export default class Button extends UIElement {
 			else {
     			left +=  elemRect.width;
 			}
-			this.child.children[0].show(left, top);
+			this.child.show(left, top);
+
 		}
 
 		this.cb(e);
@@ -58,6 +60,10 @@ export default class Button extends UIElement {
 		if(this.contains(e.target)) return; 
 		if (e.target != this && this.hasChildren() ) 
 			this.child.children[0].hide();
+	}
+
+	toggleChildren() {
+		this.child.toggleVisibility();
 	}
 
 	showChild() {
