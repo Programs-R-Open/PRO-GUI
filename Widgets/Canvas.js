@@ -47,4 +47,4 @@ export class Canvas extends Widget {
 	}
 }
 
-customElements.define('pro-canvas', Canvas);
+//customElements.define('pro-canvas', Canvas);

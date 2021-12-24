@@ -1,19 +1,17 @@
-import UIElement from './UIElement.js';
+import UIElement from "../Native/UIElement.js";
 
 export default class ScrolleablePanel extends UIElement {
 
-	constructor(type = "vertical") {
-		super();
+	constructor(parent, type = "vertical") {
+		super(parent);
 		
 		this.style.display = "flex";
 
 		if (type == "vertical") {
-			this.style.height = "100%";
 			this.style.overflowY = "auto";
 			this.style.flexDirection = "column";
 		}
 		if (type == "horizontal") {
-			this.style.width = "100%";
 			this.style.overflowX = "auto";
 			this.style.flexDirection = "row";
 		}

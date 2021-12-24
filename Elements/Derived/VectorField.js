@@ -1,5 +1,6 @@
-import UIElement from './UIElement.js';
+import UIElement from "../Native/UIElement.js";
 import IntField from './IntField.js';
+
 
 export class VectorField extends UIElement {
 

@@ -1,7 +1,7 @@
-import UIElement from './UIElement.js';
-import Button from './Button.js';
+import UIElement from "../Native/UIElement.js";
+import Button from "../Native/Button.js";
 
-export default class DropField  extends UIElement {
+export default class DropField extends UIElement {
 
 	constructor(field, type) {
 		super();

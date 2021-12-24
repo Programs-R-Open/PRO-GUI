@@ -1,24 +1,28 @@
+import NativeElement from './NativeElement.js';
 import UIElement from './UIElement.js';
 
-export default class Button extends UIElement {
+export default class Button extends NativeElement {
 
-	constructor(name, cb = ()=>{}, child = null) {
-		super();
+	constructor(parent, name = "", cb = ()=>{}, child = null) {
+		super(parent, "button");
 
+		this.name = name;
 		this.cb = cb;
 		this.isDown;
 
 		this.style.cursor = "pointer";
 		this.event("click", this.onClick.bind(this));
-		document.body.addEventListener("click", this.hideChildren.bind(this) );
+		this.event("click", this.hideChildren.bind(this));
 
 		this.text = new UIElement();
-		super.appendChild(this.text);
+		this.element.append(this.text);
 		this.text.innerHTML = name;
 
 		this.child = new UIElement();	
-		super.appendChild(this.child);
-		if (child) this.child.appendChild(child);
+		this.append(this.child);
+		if (child) this.child.append(child);
+
+		this.append = (child) => this.child.append(child);
 
 	}
 
@@ -36,7 +40,8 @@ export default class Button extends UIElement {
 			else {
     			left +=  elemRect.width;
 			}
-			this.child.children[0].show(left, top);
+			this.child.show(left, top);
+
 		}
 
 		this.cb(e);
@@ -60,13 +65,14 @@ export default class Button extends UIElement {
 			this.child.children[0].hide();
 	}
 
+	toggleChildren() {
+		this.child.toggleVisibility();
+	}
+
 	showChild() {
 		this.child.show()
 	}
 
-	appendChild(child) {
-		this.child.appendChild(child);
-	}
 }
 
 customElements.define('pro-button', Button);

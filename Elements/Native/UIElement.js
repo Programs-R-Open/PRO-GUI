@@ -1,11 +1,17 @@
-
 export default class UIElement extends HTMLElement {
 
-	constructor() {
+	constructor(parent = null, text = '') {
 		super();
-		this.event = this.addEventListener;
-		this.style.display = "block";
-		
+
+
+		if(parent != null) parent.append(this);  
+		this.innerHTML = text;
+
+		this.defaultDisplay = "";
+
+
+		// callbacks
+
 		this.onResized = () => {};
 		this.onChildRemoved = () => {};
 		this.onChildAppended = () => {};
@@ -25,20 +31,34 @@ export default class UIElement extends HTMLElement {
 	}
 
 	show() {
-		this.style.display = "";
+		this.style.display = this.defaultDisplay;
+	}
+
+
+	toggleVisibility() {
+		this.style.display = this.style.display == "" ? "none" : ""; 
+	}
+
+	getPos() {
+		let {x, y} = this.getBoundingClientRect();
+		return {x:x, y:y}
+	}
+
+	getWidth() {
+		return this.getBoundingClientRect().width;
 	}
 
 	setFlex() {
-		this.setStyle("display", "flex");
+		this.setDisplay("flex");
 	}
 
 	setRow() {
-		this.setStyle("display", "flex");
+		this.setDisplay("flex");
 		this.setStyle("flexDirection", "row");
 	}
 
 	setCol() {
-		this.setStyle("display", "flex");
+		this.setDisplay("flex");
 		this.setStyle("flexDirection", "column");
 	}
 
@@ -74,12 +94,25 @@ export default class UIElement extends HTMLElement {
 		this.setWidth(dim.width);
 	}
 
+	setDisplay(display) {
+		this.defaultDisplay = display;
+		this.style.display = display;
+	}
+
 	setTop(value) {
 		this.setStyle("top", value);
 	}
 
+	setText(text) {
+		this.innerHTML = text;
+	}
+	
 	setLeft(value) {
 		this.setStyle("left", value);
+	}
+
+	setStyleJson(json){
+		json.forEach(([style, value]) => this.setStyle(style, value));
 	}
 
 	setStyle(style, value) {
@@ -165,7 +198,14 @@ export default class UIElement extends HTMLElement {
 		this.onChildAppended(element);
 	}
 
+
+	// Expected input: {x , y};
+	isInside(pos) {
+		let bounds = this.getBoundingClientRect();
+		return pos.x > bounds.left && pos.x < bounds.right && pos.y > bounds.top && pos.y < bounds.bottom;
+	}
+
 }
 
-console.trace()
+
 customElements.define('pro-ui-element', UIElement);

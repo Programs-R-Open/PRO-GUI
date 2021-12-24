@@ -1,5 +1,5 @@
-import UIElement from './UIElement.js';
-import Icon from '../Icon.js';
+import UIElement from "../Native/UIElement.js";
+import Icon from "./Icon.js";
 
 export default class IntField extends UIElement {
 
