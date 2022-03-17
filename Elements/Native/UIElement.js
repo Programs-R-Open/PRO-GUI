@@ -1,14 +1,17 @@
-
 export default class UIElement extends HTMLElement {
 
-	constructor(parent = null) {
+
+	constructor(parent = null, text = '') {
 		super();
 
 
-		if(parent != null) parent.appendChild(this);  
+		if(parent != null) parent.append(this);  
+		this.innerHTML = text;
 
-		this.event = this.addEventListener;
 		this.defaultDisplay = "";
+
+
+		// callbacks
 
 		this.onResized = () => {};
 		this.onChildRemoved = () => {};
@@ -92,6 +95,11 @@ export default class UIElement extends HTMLElement {
 		this.setHeight(dim.height);
 		this.setWidth(dim.width);
 	}
+	setDisplay(display) {
+		this.defaultDisplay = display;
+		this.style.display = display;
+	}
+
 	setDisplay(display) {
 		this.defaultDisplay = display;
 		this.style.display = display;
@@ -194,6 +202,13 @@ export default class UIElement extends HTMLElement {
 	appendChild(element) {
 		super.appendChild(element)
 		this.onChildAppended(element);
+	}
+
+
+	// Expected input: {x , y};
+	isInside(pos) {
+		let bounds = this.getBoundingClientRect();
+		return pos.x > bounds.left && pos.x < bounds.right && pos.y > bounds.top && pos.y < bounds.bottom;
 	}
 
 }

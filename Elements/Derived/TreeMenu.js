@@ -1,5 +1,5 @@
-import UIElement from './UIElement.js';
-import Button from './Button.js';
+import UIElement from "../Native/UIElement.js";
+import Button from "../Native/Button.js";
 
 export default class TreeMenu extends UIElement {
 

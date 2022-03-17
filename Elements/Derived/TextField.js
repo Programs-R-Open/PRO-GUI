@@ -1,4 +1,4 @@
-import UIElement from '../Elements/UIElement.js';
+import UIElement from "../Native/UIElement.js";
 
 export default class TextField extends UIElement {
 	constructor() {
